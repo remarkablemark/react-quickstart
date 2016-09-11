@@ -23,10 +23,62 @@
         <!-- Babel -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+
+        <!-- Setup Firebase -->
+        <script type="text/javascript">
+            // https://firebase.google.com/docs/web/setup
+            firebase.initializeApp({
+                apiKey: '<API_KEY>',
+                authDomain: '<PROJECT_ID>.firebaseapp.com',
+                databaseURL: 'https://<DATABASE_NAME>.firebaseio.com',
+                storageBucket: '<BUCKET>.appspot.com'
+            });
+        </script>
+
         <!-- App -->
         <script type="text/babel">
+            var App = React.createClass({
+                getInitialState: function() {
+                    return { dates: [] };
+                },
+                componentWillMount: function() {
+                    var self = this;
+                    this.firebaseRef = firebase.database().ref('dates');
+                    this.firebaseRef.on('value', function(dataSnapshot) {
+                        var dates = dataSnapshot.val();
+                        if (dates) {
+                            self.setState({ dates: dates });
+                        }
+                    });
+                },
+                componentWillUnmount: function() {
+                    this.firebaseRef.off();
+                },
+                _addDate: function() {
+                    var dates = this.state.dates.slice(0);
+                    dates.push(new Date().toString());
+                    this.firebaseRef.set(dates);
+                    this.setState({ dates: dates });
+                },
+                render: function() {
+                    return (
+                        <div>
+                            <h1>React + Firebase Quickstart</h1>
+                            <ul>
+                                {this.state.dates.map(function(date, index) {
+                                    return <li key={index}>{date}</li>;
+                                })}
+                            </ul>
+                            <button onClick={this._addDate}>Add Date</button>
+                        </div>
+                    );
+                }
+            });
+
             ReactDOM.render(
-                <h1>Welcome to React Quickstart</h1>,
+                <App />,
                 document.getElementById('root')
             );
         </script>
