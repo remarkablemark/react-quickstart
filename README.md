@@ -2,17 +2,12 @@
 
 A template to get started with React.
 
-This is only recommended for **_quick prototyping_** and **not to be used in _production_**.
+This is only recommended for **_quick prototyping_** and **not for _production use_**.
 
-### Install
+### Usage
 
 ```sh
 $ git clone https://github.com/remarkablemark/react-quickstart.git
-```
-
-### Run
-
-```sh
 $ cd react-quickstart
 $ open index.html
 ```
