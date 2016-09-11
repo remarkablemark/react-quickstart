@@ -23,6 +23,12 @@ $ git checkout react-router
 $ open index.html
 ```
 
+[Firebase](https://firebase.google.com) quickstart:
+```sh
+$ git checkout firebase
+$ open index.html
+```
+
 ### License
 
 [MIT](https://github.com/remarkablemark/react-quickstart/blob/master/LICENSE)
