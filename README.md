@@ -29,6 +29,14 @@ $ git checkout firebase
 $ open index.html
 ```
 
+[Webpack](https://webpack.github.io) quickstart:
+```sh
+$ git checkout webpack
+$ npm install
+$ npm run build
+$ open index.html
+```
+
 ### License
 
 [MIT](https://github.com/remarkablemark/react-quickstart/blob/master/LICENSE)
