@@ -23,10 +23,45 @@
         <!-- Babel -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 
+        <!-- ReactRouter -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router/2.7.0/ReactRouter.js"></script>
+
         <!-- App -->
         <script type="text/babel">
+            var Router = ReactRouter.Router;
+            var Route = ReactRouter.Route;
+            var IndexRoute = ReactRouter.IndexRoute;
+            var Link = ReactRouter.Link;
+
+            var Layout = React.createClass({
+                render: function() {
+                    return (
+                        <div>
+                            <h1>{this.props.children}</h1>
+                            <ul>
+                                <li><Link to='/'>Index</Link></li>
+                                <li><Link to='/about'>About</Link></li>
+                            </ul>
+                        </div>
+                    );
+                }
+            });
+
+            var Index = React.createClass({
+                render: function() { return <p>Index</p>; }
+            });
+
+            var About = React.createClass({
+                render: function() { return <p>About</p>; }
+            });
+
             ReactDOM.render(
-                <h1>Welcome to React Quickstart</h1>,
+                <Router history={ReactRouter.hashHistory}>
+                    <Route path='/' component={Layout}>
+                        <IndexRoute component={Index} />
+                        <Route path='about' component={About} />
+                    </Route>
+                </Router>,
                 document.getElementById('root')
             );
         </script>
