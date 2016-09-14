@@ -23,12 +23,48 @@
         <!-- Babel -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 
+        <!-- Redux -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.6.0/redux.min.js"></script>
+
         <!-- App -->
         <script type="text/babel">
-            ReactDOM.render(
-                <h1>Welcome to React Quickstart</h1>,
-                document.getElementById('root')
-            );
+            function reducer(state, action) {
+                state = state || 0;
+                switch (action.type) {
+                    case 'INCREMENT':
+                        return state + 1;
+                    default:
+                        return state;
+                }
+            }
+
+            var store = Redux.createStore(reducer);
+
+            var Counter = React.createClass({
+                _handleClick: function() {
+                    store.dispatch({ type: 'INCREMENT' });
+                },
+                render: function() {
+                    return (
+                        <button onClick={this._handleClick}>
+                            {this.props.number}
+                        </button>
+                    );
+                }
+            });
+
+            function render() {
+                ReactDOM.render(
+                    <div>
+                        <h1>Welcome to React + Redux Quickstart</h1>
+                        <Counter number={store.getState()} />
+                    </div>,
+                    document.getElementById('root')
+                );
+            }
+
+            render();
+            store.subscribe(render);
         </script>
     </body>
 </html>
