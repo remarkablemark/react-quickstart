@@ -43,8 +43,9 @@
 
             var Counter = React.createClass({
                 render: function() {
+                    var actions = this.props.actions;
                     return (
-                        <button onClick={this.props._handleIncrement}>
+                        <button onClick={actions._handleIncrement}>
                             {this.props.number}
                         </button>
                     );
@@ -57,9 +58,11 @@
                 },
                 function mapDispatchToProps(dispatch) {
                     return {
-                        _handleIncrement: function() {
-                            dispatch({ type: 'INCREMENT' });
-                        }
+                        actions: Redux.bindActionCreators({
+                            _handleIncrement: function() {
+                                return { type: 'INCREMENT' };
+                            }
+                        }, dispatch)
                     };
                 }
             )(Counter);
