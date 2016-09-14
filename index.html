@@ -26,9 +26,12 @@
         <!-- Redux -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.6.0/redux.min.js"></script>
 
+        <!-- ReactRedux -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/4.4.5/react-redux.min.js"></script>
+
         <!-- App -->
         <script type="text/babel">
-            function reducer(state, action) {
+            var store = Redux.createStore(function reducer(state, action) {
                 state = state || 0;
                 switch (action.type) {
                     case 'INCREMENT':
@@ -36,35 +39,41 @@
                     default:
                         return state;
                 }
-            }
-
-            var store = Redux.createStore(reducer);
+            });
 
             var Counter = React.createClass({
-                _handleClick: function() {
-                    store.dispatch({ type: 'INCREMENT' });
-                },
                 render: function() {
                     return (
-                        <button onClick={this._handleClick}>
+                        <button onClick={this.props._handleIncrement}>
                             {this.props.number}
                         </button>
                     );
                 }
             });
 
-            function render() {
-                ReactDOM.render(
-                    <div>
-                        <h1>Welcome to React + Redux Quickstart</h1>
-                        <Counter number={store.getState()} />
-                    </div>,
-                    document.getElementById('root')
-                );
-            }
+            var Container = ReactRedux.connect(
+                function mapStateToProps(state) {
+                    return { number: state };
+                },
+                function mapDispatchToProps(dispatch) {
+                    return {
+                        _handleIncrement: function() {
+                            dispatch({ type: 'INCREMENT' });
+                        }
+                    };
+                }
+            )(Counter);
 
-            render();
-            store.subscribe(render);
+            var Provider = ReactRedux.Provider;
+            ReactDOM.render(
+                <div>
+                    <h1>Welcome to React + Redux Quickstart</h1>
+                    <Provider store={store}>
+                        <Container />
+                    </Provider>
+                </div>,
+                document.getElementById('root')
+            );
         </script>
     </body>
 </html>
