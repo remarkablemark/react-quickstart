@@ -31,7 +31,7 @@
 
         <!-- App -->
         <script type="text/babel">
-            var store = Redux.createStore(function reducer(state, action) {
+            function counter(state, action) {
                 state = state || 0;
                 switch (action.type) {
                     case 'INCREMENT':
@@ -39,28 +39,60 @@
                     default:
                         return state;
                 }
-            });
+            }
+
+            function visibility(state, action) {
+                state = typeof state === 'boolean' ? state : true;
+                if (action.type === 'TOGGLE') {
+                    return !state;
+                }
+                return state;
+            }
+
+            var store = Redux.createStore(
+                Redux.combineReducers({
+                    number: counter,
+                    isVisible: visibility
+                })
+            );
 
             var Counter = React.createClass({
                 render: function() {
                     var actions = this.props.actions;
+                    var style = {
+                        display: this.props.isVisible ? 'inline' : 'none'
+                    };
                     return (
-                        <button onClick={actions._handleIncrement}>
-                            {this.props.number}
-                        </button>
+                        <div>
+                            <button onClick={actions._toggleVisibility}>
+                                Toggle
+                            </button>
+                            &nbsp;
+                            <div style={style}>
+                                <button onClick={actions._handleIncrement}>
+                                    {this.props.number}
+                                </button>
+                            </div>
+                        </div>
                     );
                 }
             });
 
             var Container = ReactRedux.connect(
                 function mapStateToProps(state) {
-                    return { number: state };
+                    return {
+                        number: state.number,
+                        isVisible: state.isVisible
+                    };
                 },
                 function mapDispatchToProps(dispatch) {
                     return {
                         actions: Redux.bindActionCreators({
                             _handleIncrement: function() {
                                 return { type: 'INCREMENT' };
+                            },
+                            _toggleVisibility: function() {
+                                return { type: 'TOGGLE' };
                             }
                         }, dispatch)
                     };
