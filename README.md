@@ -17,6 +17,12 @@ $ cd react-quickstart
 $ open index.html
 ```
 
+[Redux](https://github.com/reactjs/redux) quickstart:
+```sh
+$ git checkout redux
+$ open index.html
+```
+
 [ReactRouter](https://github.com/reactjs/react-router) quickstart:
 ```sh
 $ git checkout react-router
