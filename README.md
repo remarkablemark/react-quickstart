@@ -20,6 +20,13 @@ $ git checkout master
 $ open index.html
 ```
 
+#### [State](https://facebook.github.io/react/docs/interactivity-and-dynamic-uis.html#how-state-works):
+
+```sh
+$ git checkout state
+$ open index.html
+```
+
 #### [Redux](https://github.com/reactjs/redux):
 
 ```sh
