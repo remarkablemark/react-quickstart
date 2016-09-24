@@ -27,6 +27,13 @@ $ git checkout state
 $ open index.html
 ```
 
+#### [ES6](https://facebook.github.io/react/docs/reusable-components.html#es6-classes):
+
+```sh
+$ git checkout es6
+$ open index.html
+```
+
 #### [Redux](https://github.com/reactjs/redux):
 
 ```sh
