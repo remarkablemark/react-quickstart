@@ -25,8 +25,31 @@
 
         <!-- App -->
         <script type="text/babel">
+            class Counter extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = { count: 0 };
+                    this._handleClick = this._handleClick.bind(this);
+                }
+
+                _handleClick() {
+                    this.setState({
+                        count: this.state.count + 1
+                    });
+                }
+
+                render() {
+                    const { count } = this.state;
+                    return (
+                        <button onClick={this._handleClick}>
+                            {count}
+                        </button>
+                    );
+                }
+            }
+
             ReactDOM.render(
-                <h1>Welcome to React Quickstart</h1>,
+                <Counter />,
                 document.getElementById('root')
             );
         </script>
