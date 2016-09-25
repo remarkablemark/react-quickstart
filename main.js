@@ -1,7 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
+import App from './App.jsx';
 
 render(
-    <h1>Welcome to React Quickstart</h1>,
+    <App />,
     document.getElementById('root')
 );
