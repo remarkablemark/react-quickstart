@@ -64,6 +64,15 @@ $ npm run build
 $ open index.html
 ```
 
+#### [Webpack Dev Server](https://webpack.github.io/docs/webpack-dev-server.html):
+
+```sh
+$ git checkout webpack-dev-server
+$ npm install
+$ npm run dev
+$ open http://localhost:8080
+```
+
 ## License
 
 [MIT](https://github.com/remarkablemark/react-quickstart/blob/master/LICENSE)
