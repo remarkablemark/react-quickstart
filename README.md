@@ -27,6 +27,13 @@ $ git checkout state
 $ open index.html
 ```
 
+#### [Context](https://facebook.github.io/react/docs/context.html):
+
+```sh
+$ git checkout context
+$ open index.html
+```
+
 #### [ES6](https://facebook.github.io/react/docs/reusable-components.html#es6-classes):
 
 ```sh
