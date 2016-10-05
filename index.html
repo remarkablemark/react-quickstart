@@ -25,8 +25,52 @@
 
         <!-- App -->
         <script type="text/babel">
+            // context provider must define `childContextTypes` and `getChildContext`
+            var Parent = React.createClass({
+                childContextTypes: {
+                    surname: React.PropTypes.string
+                },
+                getChildContext: function() {
+                    return { surname: this.props.surname };
+                },
+                render: function() {
+                    return (
+                        <div>
+                            <p><b>Parent</b>'s surname is <i>{this.props.surname}</i></p>
+                            <Child />
+                        </div>
+                    );
+                }
+            });
+
+            // context receiver must define `contextTypes`
+            var Child = React.createClass({
+                contextTypes: {
+                    surname: React.PropTypes.string
+                },
+                render: function() {
+                    return (
+                        <div>
+                            <p><b>Child</b>'s surname is <i>{this.context.surname}</i></p>
+                            <Grandchild />
+                        </div>
+                    );
+                }
+            });
+
+            // all compponents in the subtree will receive the context
+            // as long as `contextTypes` is defined
+            var Grandchild = React.createClass({
+                contextTypes: {
+                    surname: React.PropTypes.string
+                },
+                render: function() {
+                    return <p><b>Grandchild</b>'s surname is <i>{this.context.surname}</i></p>;
+                }
+            });
+
             ReactDOM.render(
-                <h1>Welcome to React Quickstart</h1>,
+                <Parent surname='Smith' />,
                 document.getElementById('root')
             );
         </script>
