@@ -23,51 +23,75 @@
         <!-- Flux -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flux/3.1.2/Flux.js"></script>
 
+        <!-- EventEmitter -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/EventEmitter/5.1.0/EventEmitter.js"></script>
+
         <!-- Babel -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 
         <!-- App -->
         <script type="text/babel">
+            const { EventEmitter, Flux } = window;
+
+            // store
+            let _store = {
+                count: 0
+            };
+            const CounterStore = Object.assign({}, EventEmitter.prototype, {
+                getStore: () => {
+                    return _store;
+                }
+            });
+
             // dispatcher
             const CounterDispatcher = new Flux.Dispatcher();
+            CounterDispatcher.register((payload) => {
+                const { actionType } = payload;
+                switch (actionType) {
+                    case 'INCREMENT':
+                        _store.count++;
+                        CounterStore.emit('change');
+                        break;
+                    case 'DECREMENT':
+                        _store.count--;
+                        CounterStore.emit('change');
+                        break;
+                    default:
+                        break;
+                }
+            });
 
             // component
             class Counter extends React.Component {
                 constructor() {
                     super();
-                    // store
+                    const { count } = CounterStore.getStore();
                     this.state = {
-                        count: 0
+                        count
                     };
+                    this._onChange = this._onChange.bind(this);
                 }
 
                 componentDidMount() {
-                    // listen to dispatcher
-                    this.token = CounterDispatcher.register((payload) => {
-                        const { actionType } = payload;
-                        switch (actionType) {
-                            case 'INCREMENT':
-                                this.setState({
-                                    count: this.state.count + 1
-                                });
-                                break;
-                            case 'DECREMENT':
-                                this.setState({
-                                    count: this.state.count - 1
-                                });
-                                break;
-                            default:
-                                break;
-                        }
-                    });
+                    // listen to store
+                    CounterStore.on('change', this._onChange);
                 }
 
                 componentWillUnmount() {
-                    // unlisten to dispatcher
-                    CounterDispatcher.unregister(this.token);
+                    // unlisten to store
+                    CounterStore.on('change', this._onChange);
+                }
+
+                _onChange() {
+                    // change state
+                    const { count } = CounterStore.getStore();
+                    this.setState({
+                        count
+                    });
                 }
 
                  _handleClick(actionType) {
+                    // dispatch action
                     CounterDispatcher.dispatch({
                         actionType
                     });
