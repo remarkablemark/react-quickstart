@@ -43,11 +43,21 @@
 
                 componentDidMount() {
                     // listen to dispatcher
-                    this.token = CounterDispatcher.register((actionType) => {
-                        if (actionType === 'INCREMENT') {
-                            this.setState({
-                                count: this.state.count + 1
-                            });
+                    this.token = CounterDispatcher.register((payload) => {
+                        const { actionType } = payload;
+                        switch (actionType) {
+                            case 'INCREMENT':
+                                this.setState({
+                                    count: this.state.count + 1
+                                });
+                                break;
+                            case 'DECREMENT':
+                                this.setState({
+                                    count: this.state.count - 1
+                                });
+                                break;
+                            default:
+                                break;
                         }
                     });
                 }
@@ -57,16 +67,23 @@
                     CounterDispatcher.unregister(this.token);
                 }
 
-                _handleClick() {
-                    // dispatch payload
-                    CounterDispatcher.dispatch('INCREMENT');
-                }
+                 _handleClick(actionType) {
+                    CounterDispatcher.dispatch({
+                        actionType
+                    });
+                 }
 
                 render() {
                     return (
-                        <button onClick={this._handleClick}>
-                            {this.state.count}
-                        </button>
+                        <div>
+                            <p>{this.state.count}</p>
+                            <button onClick={this._handleClick.bind(this, 'INCREMENT')}>
+                                +
+                            </button>
+                            <button onClick={this._handleClick.bind(this, 'DECREMENT')}>
+                                -
+                            </button>
+                        </div>
                     );
                 }
             }
