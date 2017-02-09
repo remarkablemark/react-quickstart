@@ -20,13 +20,63 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react-dom.js"></script>
 
+        <!-- Flux -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flux/3.1.2/Flux.js"></script>
+
         <!-- Babel -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 
         <!-- App -->
         <script type="text/babel">
+            // dispatcher
+            var CounterDispatcher = new Flux.Dispatcher();
+
+            // component
+            var Counter = React.createClass({
+                // store
+                getInitialState: function() {
+                    return {
+                        count: 0
+                    };
+                },
+
+                componentDidMount: function() {
+                    var _this = this;
+
+                    // listen to dispatcher
+                    this.token = CounterDispatcher.register(function(actionType) {
+                        if (actionType === 'INCREMENT') {
+                            _this.setState({
+                                count: _this.state.count + 1
+                            });
+                        }
+                    });
+                },
+
+                componentWillUnmount: function() {
+                    // unlisten to dispatcher
+                    CounterDispatcher.unregister(this.token);
+                },
+
+                _handleClick: function() {
+                    // dispatch payload
+                    CounterDispatcher.dispatch('INCREMENT');
+                },
+
+                render: function() {
+                    return (
+                        <button onClick={this._handleClick}>
+                            {this.state.count}
+                        </button>
+                    );
+                }
+            });
+
             ReactDOM.render(
-                <h1>Welcome to React Quickstart</h1>,
+                <div>
+                    <h1>Welcome to Flux Quickstart</h1>
+                    <Counter />
+                </div>,
                 document.getElementById('root')
             );
         </script>
