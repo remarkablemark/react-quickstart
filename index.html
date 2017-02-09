@@ -29,48 +29,47 @@
         <!-- App -->
         <script type="text/babel">
             // dispatcher
-            var CounterDispatcher = new Flux.Dispatcher();
+            const CounterDispatcher = new Flux.Dispatcher();
 
             // component
-            var Counter = React.createClass({
-                // store
-                getInitialState: function() {
-                    return {
+            class Counter extends React.Component {
+                constructor() {
+                    super();
+                    // store
+                    this.state = {
                         count: 0
                     };
-                },
+                }
 
-                componentDidMount: function() {
-                    var _this = this;
-
+                componentDidMount() {
                     // listen to dispatcher
-                    this.token = CounterDispatcher.register(function(actionType) {
+                    this.token = CounterDispatcher.register((actionType) => {
                         if (actionType === 'INCREMENT') {
-                            _this.setState({
-                                count: _this.state.count + 1
+                            this.setState({
+                                count: this.state.count + 1
                             });
                         }
                     });
-                },
+                }
 
-                componentWillUnmount: function() {
+                componentWillUnmount() {
                     // unlisten to dispatcher
                     CounterDispatcher.unregister(this.token);
-                },
+                }
 
-                _handleClick: function() {
+                _handleClick() {
                     // dispatch payload
                     CounterDispatcher.dispatch('INCREMENT');
-                },
+                }
 
-                render: function() {
+                render() {
                     return (
                         <button onClick={this._handleClick}>
                             {this.state.count}
                         </button>
                     );
                 }
-            });
+            }
 
             ReactDOM.render(
                 <div>
