@@ -41,6 +41,13 @@ $ git checkout es6
 $ open index.html
 ```
 
+#### [Flux](https://facebook.github.io/flux/):
+
+```sh
+$ git checkout flux
+$ open index.html
+```
+
 #### [Redux](https://github.com/reactjs/redux):
 
 ```sh
