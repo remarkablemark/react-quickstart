@@ -1,13 +1,11 @@
 {
   "name": "react-webpack-quickstart",
   "version": "0.0.0",
-  "description": "A template to get started with React and webpack.",
+  "description": "A template to get started with React and webpack-dev-server.",
   "author": "Mark <mark@remarkablemark.org>",
   "main": "index.html",
   "scripts": {
-    "dev": "webpack-dev-server --hot --inline",
-    "build": "webpack",
-    "watch": "webpack -w"
+    "dev": "webpack-dev-server --hot --inline --quiet"
   },
   "repository": {
     "type": "git",
