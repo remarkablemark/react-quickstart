@@ -21,6 +21,13 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.NamedModulesPlugin()
-    ]
+        // prints more readable module names in the browser console on HMR updates
+        new webpack.NamedModulesPlugin(),
+        // do not emit compiled assets that include errors
+        new webpack.NoErrorsPlugin()
+    ],
+    devtool: 'inline-source-map',
+    resolve: {
+        extensions: ['', '.js', '.jsx', '.json']
+    }
 };
